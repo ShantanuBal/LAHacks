@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  div#main
+    p
+        a(href="/")= "Home"
+    p
+        a(href="/userlist")= "Search History"
+    p 
+        a(href="/about")= "About"
+    h1= title
+    p Name 		= #{name}
+    p Type 		= #{type}
+    p Country 	= #{country}
+    p Time Zone = #{tz}
+    p latitude 	= #{lat}
+    p longitude = #{lon}
+    

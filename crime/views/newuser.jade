@@ -1,8 +1,11 @@
 extends layout
 
 block content
+    p
+        a(href="/userlist")= "Search History"
+    p 
+        a(href="/about")= "About"
     h1= title
     form#formAddUser(name="adduser",method="post",action="/adduser")
-        input#inputUserName(type="text", placeholder="username", name="username")
-        input#inputUserEmail(type="text", placeholder="useremail", name="useremail")
+        input#inputUserName(type="text", placeholder="Search", name="username")
         button#btnSubmit(type="submit") submit

@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 */
 
 /* GET Landing Page */
-router.get('/', function(req, res) {
+router.get('/about', function(req, res) {
 	res.render('landing', { title: 'Neighborhood Watch'});
 });
 
@@ -24,8 +24,8 @@ router.get('/userlist', function(req, res) {
 });
 
 /* GET New User page. */
-router.get('/newuser', function(req, res) {
-    res.render('newuser', { title: 'Add New User' });
+router.get('/', function(req, res) {
+    res.render('newuser', { title: 'Search A Neighborhood' });
 });
 
 /* POST to Add User Service */
@@ -36,15 +36,15 @@ router.post('/adduser', function(req, res) {
 
     // Get our form values. These rely on the "name" attributes
     var userName = req.body.username;
-    var userEmail = req.body.useremail;
+    /*var userEmail = req.body.useremail;*/
 
     // Set our collection
     var collection = db.get('usercollection');
 
     // Submit to the DB
     collection.insert({
-        "username" : userName,
-        "email" : userEmail
+        "username" : userName /*,
+        "email" : userEmail*/
     }, function (err, doc) {
         if (err) {
             // If it failed, return error

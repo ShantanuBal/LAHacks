@@ -1,11 +1,13 @@
 extends layout
 
 block content
+  div#main
     p
         a(href="/userlist")= "Search History"
     p 
         a(href="/about")= "About"
     h1= title
-    form#formAddUser(name="adduser",method="post",action="/adduser")
-        input#inputUserName(type="text", placeholder="Search", name="username")
-        button#btnSubmit(type="submit") submit
+    form(name="adduser",id="searchForm",method="post",action="/adduser")
+      div.input
+        input(type="text", id="s", name="username", value="Enter your search")
+      input(type="submit", id="searchSubmit", value="") 

@@ -32,7 +32,7 @@ router.get('/userlist', function(req, res) {
 
 /* GET New User page. */
 router.get('/', function(req, res) {
-    res.render('newuser', { title: 'Search for Communities' });
+    res.render('newuser', { title: 'Know Your Community' });
 });
 
 /* GET New User page. */

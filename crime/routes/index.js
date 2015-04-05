@@ -27,7 +27,7 @@ router.get('/userlist', function(req, res) {
 
 /* GET New User page. */
 router.get('/', function(req, res) {
-    res.render('newuser', { title: 'Search A Neighborhood' });
+    res.render('newuser', { title: 'Search for Communities' });
 });
 
 /* POST to Add User Service */
@@ -60,7 +60,7 @@ router.post('/results', function(req, res) {
         else {
             json1 = result.body['Results'][0];
         }
-        res.render('results', { title: 'Results For Your Neighborhood', name: json1['name'], type: json1['type'], tz: json1['tzs'], country: json1['c'], lat: json1['lat'], lon: json1['lon'] });
+        res.render('results', { title: 'Results For Your Community', name: json1['name'], type: json1['type'], tz: json1['tzs'], country: json1['c'], lat: json1['lat'], lon: json1['lon'] });
     });
 
     // Submit to the DB

@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 /* GET Landing Page */
 router.get('/about', function(req, res) {
-	res.render('landing', { title: 'Neighborhood Watch'});
+	res.render('landing', { title: 'Know Your Community'});
 });
 
 /* GET Userlist page. */

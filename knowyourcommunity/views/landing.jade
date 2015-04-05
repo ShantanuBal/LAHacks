@@ -1,11 +1,14 @@
 extends layout
 
 block content
-  h1=title
-  p
-    a(href="/")= "Home"
+  h1="KNOW YOUR COMMUNITY"
+  br
   p 
-    a(href="/userlist")= "Search History"
+      a(href="/")= "Home"
+      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      a(href="/userlist")= "History"
+      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      a(href="/about")= "About"
   br
   p Welcome to #{title}
   br

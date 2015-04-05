@@ -1,12 +1,15 @@
 extends layout
 
 block content
-  h1= title
+  h1= "SEARCH FOR COMMUNITIES"
   div#main
-    p
-        a(href="/userlist")= "Search History"
-    p 
+    h2 
+        a(href="/")= "Home"
+        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        a(href="/userlist")= "History"
+        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         a(href="/about")= "About"
+    br
     form(name="adduser",id="searchForm",method="post",action="/results")
       div.input
         input(type="text", id="s", name="city", value="Enter your city")

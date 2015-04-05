@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 
 /* GET Landing Page */
 router.get('/about', function(req, res) {
-	res.render('landing', { title: 'Know Your Community'});
+	res.render('landing', { title: 'KNOW YOUR COMMUNITY'});
 });
 
 /* GET Userlist page. */
@@ -35,7 +35,7 @@ router.get('/userlist', function(req, res) {
 
 /* GET New User page. */
 router.get('/', function(req, res) {
-    res.render('newuser', { title: 'Search for Communities' });
+    res.render('newuser', { title: 'SEARCH FOR COMMUNITIES' });
 });
 
 /* GET New User page. */
@@ -96,7 +96,7 @@ router.post('/results', function(req, res) {
             //console.log(json);
             console.log("Yolo ",result['Demographics:demographics']['message'][0]['code'][0]);
             if ( parseInt(result['Demographics:demographics']['message'][0]['code'][0]) != 0 ) {
-                res.render('results', { title: 'Results For Your Neighborhood', city:"N/A", state:"N/A"});
+                res.render('results', { title: 'RESULTS FOR YOUR NEIGHBORHOOD', city:"N/A", state:"N/A"});
             } 
             else {
             
@@ -201,7 +201,7 @@ router.post('/results', function(req, res) {
                 .header("Accept", "text/plain")
                 .end(function (result) {
                         
-                        res.render('results', { title: 'Results For Your Neighborhood', 
+                        res.render('results', { title: 'RESULTS FOR YOUR NEIGHBORHOOD', 
                                     city: city, 
                                     state: state, 
                                     avg_home_value: parseFloat(avg_home_value).toFixed(2), 

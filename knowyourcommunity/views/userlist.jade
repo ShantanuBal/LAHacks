@@ -1,13 +1,22 @@
 extends layout
 
 block content
+    h1.
+        PROPERTY SEARCH HISTORY
+    br
     p 
         a(href="/")= "Home"
-    p 
+        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        a(href="/userlist")= "History"
+        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         a(href="/about")= "About"
-    h1.
-        Property Search History
-    ul
+    
+    br
+    table(border=2, margin=10)
+        tr
+            th= "COMMUNITY"
+            th= "STATE"
         each user, i in userlist
-            li
-                h3= user.username
+            tr
+                td= user.city
+                td= user.state

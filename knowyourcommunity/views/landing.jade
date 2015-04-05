@@ -16,3 +16,27 @@ block content
   a(href='http://www-scf.usc.edu/~shantanb/', target='_blank') Shantanu Bal, 
   a(href='http://www.plawanrath.me', target='_blank') Plawan Kumar Rath, & 
   a(href='http://www.christopherturner.io', target='_blank') Christopher Turner
+
+h2 Inspiration
+
+We wanted to do something to ease the moving process to a new place. Currently, when we want to move to a new place, we probably will look into google and find do's and don'ts or find out how that place is like, etc. We wanted to build a web platform, that can be a one-stop shop for people who are looking to move.
+
+h2 How it works
+
+This web framework currently use one of Mashape's API to pull in data about a location, and then run our algorithm on the data to come up with a comprehensive rating on 10 for that place. Along with our rating, we also publish the data that were used to calculate the ratings.
+
+h2 Challenges I ran into
+
+We initially planned to involve Mashape's CrimeData API to pull in crime data, and also planned to implement geolocations so that we can enable people to enter an address or a zipcode to get data about that location; but we spent a lot of time trying to get some of the APIs work and sort of ran out of time, so we decided to stick to basic city data for now, to be able to show a proof of concept.
+
+h2 Accomplishments that I'm proud of
+
+All three of us, we had a mission for this event, to come out and learn something new. We had never used Node js before, so we all learned Node with Express, Jade and Mongodb and used those for our hack. Although we just have a POC, we are still proud of the fact that it was a great learning experience.
+
+h2 What I learned
+
+We learned Node js, Mongodb, Express, Jade. We also learned to use a bunch of APIs. Although we didn't integrate all the APIs we learned, we gave every API we learned a try and that was an amazing learning experience.
+
+h2 What's next for KnowYourCommunity
+
+Next step would be to scale the platform to add geolocation and enable users to enter zip codes or addresses to extract data for that place. Another feature we have talked about adding(we were planning to implement this if time permitted) is to add a comments button specific to places. So currently we have a mechanism wherein if a location is searched, it gets saved in the database. We had done that so that we wanted to have an option where someone if he/she chose to, could click on some location that has already been searched(say that person feels the stats are mis-informed) can post comments and we can add WordNet technology or other ontologies to parse the comments to increase or decrease our ratings. We feel that could be a very handy Search and Info tool...

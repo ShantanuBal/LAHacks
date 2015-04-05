@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var unirest = require('unirest');
+var http = require('http');
+var parseString = require('xml2js').parseString;
 
 var counter = 0;
 
@@ -12,7 +14,7 @@ router.get('/', function(req, res, next) {
 
 /* GET Landing Page */
 router.get('/about', function(req, res) {
-	res.render('landing', { title: 'Neighborhood Watch'});
+	res.render('landing', { title: 'Know Your Community'});
 });
 
 /* GET Userlist page. */
@@ -29,7 +31,7 @@ router.get('/userlist', function(req, res) {
 
 /* GET New User page. */
 router.get('/', function(req, res) {
-    res.render('newuser', { title: 'Search A Neighborhood' });
+    res.render('newuser', { title: 'Search for Communities' });
 });
 
 /* POST to Add User Service */
@@ -46,69 +48,54 @@ router.post('/results', function(req, res) {
     var collection = db.get('usercollection');
 
     //Replace search field spaces with '+'
+
     var new_city = city.replace(/ /g, "+");
     var zillow_url = "http://www.zillow.com/webservice/GetDemographics.htm?zws-id=X1-ZWz1b2gfe4yjuz_a3t9y&city="+new_city+"&state="+state;
-
-    var jsdom = require("jsdom");
-    jsdom.env(
-        zillow_url,
-        ["http://code.jquery.com/jquery.js"],
-        function (errors, window) {
-            var lat = window.$("latitude").text();
-            var lon = window.$("longitude").text();
-            jsdom.env(
-                window.$("affordability").text(),
-                ["http://code.jquery.com/jquery.js"],
-                function (errors2, window) {
-            
-                    res.render('results', { title: 'Results For Your Neighborhood', 
-                        city: city, 
-                        state: state, 
-                        tz: "N/A", 
-                        lat: lat, 
-                        lon: lon,  
-                        avg_home_prices: window.$("h2:first").text(),
-                    });
-                });
-        });
-
-    /*
-    var new_city = city.replace(/ /g, "+");
-    unirest.get("http://www.zillow.com/webservice/GetDemographics.htm?zws-id=X1-ZWz1b2gfe4yjuz_a3t9y&city="+new_city+"&state="+state)
-    .header("X-Mashape-Key", "00nWJd3S5ZmshdkVpBqujaDny0cnp1WVFlwjsn2SZg6cLBCxXL")
-    .header("Accept", "xml")
-    .end(function (result_xml) {
-        
-        res.render('results', { title: 'Results For Your Neighborhood'/*, name: json1['name'], type: json1['type'], tz: json1['tzs'], country: json1['c'], lat: json1['lat'], lon: json1['lon'], no_crimes: json1['no_crimes'] });
-        });
-        /*
-        var json = JSON.stringify(result);
-        var json1 = JSON.stringify(json["body"]);
-        console.log("OUTPUT=",json["body"]);*/
-        //res.render('results', { title: 'Results For Your Neighborhood'/*, name: json1['name'], type: json1['type'], tz: json1['tzs'], country: json1['c'], lat: json1['lat'], lon: json1['lon'], no_crimes: json1['no_crimes'] */});
-        /*console.log("\nOUTPUT=",result.body);
-        
-        var json1;
-        if ( result.body['Results'].length == 0 ) {
-            json1 = { "name": "N/A", "type": "N/A", "tzs": "N/A", "c": "N/A", "lat": "N/A", "lon": "N/A", "no_crimes":"N/A"};
-            res.render('results', { title: 'Results For Your Neighborhood', name: json1['name'], type: json1['type'], tz: json1['tzs'], country: json1['c'], lat: json1['lat'], lon: json1['lon'], no_crimes: json1['no_crimes'] });
-        }
-        else {
-            json1 = result.body['Results'][0];
-
-            unirest.get("https://jgentes-Crime-Data-v1.p.mashape.com/crime?enddate=4%2F1%2F2015&lat="+json1['lat']+"&long="+json1['long']+"&startdate=4%2F1%2F2014")
-            .header("X-Mashape-Key", "wq12TdjK70mshFahNLTwVPBSBKTcp1saVHHjsnVwwmdWNixkU5")
-            .header("Accept", "application/json")
-            .end(function (result) {
-                console.log("\nOUTPUT: ",result.body.length);
-                json1['no_crimes'] = result.body.length;
-                res.render('results', { title: 'Results For Your Neighborhood', name: json1['name'], type: json1['type'], tz: json1['tzs'], country: json1['c'], lat: json1['lat'], lon: json1['lon'], no_crimes: json1['no_crimes'] });
-            });
-        }
-        
-    });*/
-
     
+    unirest.get(zillow_url)
+    .header("Accept", "application/xml")
+    .end(function (result) {
+        var xml = result.body;
+        parseString(xml, function (err, result) {
+            //var json = JSON.stringify(result);
+            //console.log(json);
+            var root = result['Demographics:demographics']['response'][0]['pages'][0]['page'];
+            var afford = root[0];
+            var homes = root[1];
+            var people = root[2];
+            
+            var aff = afford['tables'][0]['table'][0]['data'][0]['attribute'];
+            var avg_home_value = aff[0]['values'][0]['city'][0]['value'][0]['_'];
+            var med_single_family = aff[1]['values'][0]['city'][0]['value'][0]['_'];
+            var prop_tax = aff[13]['values'][0]['city'][0]['value'][0]['_'];
+
+            var percent_owners = parseFloat(homes['tables'][0]['table'][0]['data'][0]['attribute'][0]['values'][0]['nation'][0]['value'][0]['_'])*100;
+
+            var peo = people['tables'][0]['table'][0]['data'][0]['attribute'];
+            var med_household_income = peo[0]['values'][0]['nation'][0]['value'][0]['_'];
+            var med_age = peo[3]['values'][0]['nation'][0]['value'][0];
+            var avg_commute_time = peo[6]['values'][0]['nation'][0]['value'][0];
+
+            var lat = result['Demographics:demographics']['response'][0]['region'][0]['latitude'][0];
+            var lon = result['Demographics:demographics']['response'][0]['region'][0]['longitude'][0];
+
+            console.log(lat);
+
+            res.render('results', { title: 'Results For Your Neighborhood', 
+                            city: city, 
+                            state: state, 
+                            avg_home_value: parseFloat(avg_home_value).toFixed(2), 
+                            med_single_family: parseFloat(med_single_family).toFixed(2), 
+                            prop_tax: parseFloat(prop_tax).toFixed(2),
+                            percent_owners: parseFloat(percent_owners).toFixed(2),
+                            med_household_income: parseFloat(med_household_income).toFixed(2),
+                            med_age: med_age,
+                            lon: lon,  
+                            lat: lat,
+                            avg_commute_time: parseFloat(avg_commute_time).toFixed(2)
+                        });
+        });
+    });
 
     // Submit to the DB
     collection.insert({

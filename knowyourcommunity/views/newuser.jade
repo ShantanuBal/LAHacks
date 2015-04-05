@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+  div#main
+    p
+        a(href="/userlist")= "Search History"
+    p 
+        a(href="/about")= "About"
+    form(name="adduser",id="searchForm",method="post",action="/results")
+      div.input
+        input(type="text", id="s", name="city", value="Enter your city")
+        input(type="text", id="s", name="state", value="Enter your state")
+      input(type="submit", id="searchSubmit", value="") 
